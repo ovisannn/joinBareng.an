@@ -4,6 +4,7 @@ const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
 
+
 //get user and room
 const {username, room} = Qs.parse(location.search,{
   ignoreQueryPrefix:true
@@ -47,15 +48,36 @@ chatForm.addEventListener('submit', e => {
 
 //output ke html
 function outputMessage(message){
-  const div = document.createElement('div');
-  div.classList.add('message');
-  div.innerHTML = `
-<div class="message">
-  <p class="meta"><b>${message.username}</b>   <span>${message.time}</span></p>
-  <p class="text">${message.text}</p>
-</div>
-`;
+
+  if(message.username==username){
+    const div = document.createElement('div');
+    div.classList.add('self');
+    div.innerHTML = `
+    <div class="self" style="float:right; width:100%;">
+      <div class="message-self">
+        <p class="meta">  <span>${message.time}</span></p>
+        <p class="text">${message.text}</p>
+      </div>
+    </div>
+
+  `;
   document.querySelector('.chat-messages').appendChild(div);
+  }
+  else{
+    const div = document.createElement('div');
+    div.classList.add('another');
+    div.innerHTML = `
+    <div class="another" style="float:right; width:100%;">
+      <div class="message">
+        <p class="meta"><b>${message.username}</b>   <span>${message.time}</span></p>
+        <p class="text">${message.text}</p>
+      </div>
+    </div>
+  `;
+  document.querySelector('.chat-messages').appendChild(div);
+  }
+
+  
 }
 
 
